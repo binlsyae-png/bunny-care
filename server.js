@@ -1,8 +1,6 @@
-const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 3000;
 const MIME = {
     '.html': 'text/html; charset=utf-8',
     '.css': 'text/css; charset=utf-8',
@@ -14,26 +12,34 @@ const MIME = {
     '.svg': 'image/svg+xml'
 };
 
-const server = http.createServer((req, res) => {
-    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url.split('?')[0]);
+function handler(req, res) {
+    const rawUrl = req.url || '/';
+    const cleanUrl = rawUrl === '/' ? '/index.html' : rawUrl.split('?')[0];
+    const safePath = path.normalize(cleanUrl).replace(/^(\.\.[\/\\])+/, '');
+    const filePath = path.join(__dirname, safePath);
     const ext = path.extname(filePath);
-    
+
     fs.readFile(filePath, (err, content) => {
         if (err) {
-            res.writeHead(404);
-            res.end('Not Found');
+            res.statusCode = 404;
+            res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+            res.end('404 Not Found');
         } else {
-            res.writeHead(200, { 
-                'Content-Type': MIME[ext] || 'text/plain',
-                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-                'Pragma': 'no-cache',
-                'Expires': '0'
-            });
+            res.statusCode = 200;
+            res.setHeader('Content-Type', MIME[ext] || 'text/plain');
+            res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
             res.end(content);
         }
     });
-});
+}
 
-server.listen(PORT, () => {
-    console.log(`Bunny Care Server running at http://localhost:${PORT}`);
-});
+// Local server execution
+if (require.main === module) {
+    const http = require('http');
+    const PORT = process.env.PORT || 3000;
+    http.createServer(handler).listen(PORT, () => {
+        console.log(`Bunny Care Server running at http://localhost:${PORT}`);
+    });
+}
+
+module.exports = handler;
