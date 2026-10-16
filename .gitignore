@@ -12,3 +12,5 @@ scratch/
 # OS Metadata
 Thumbs.db
 .DS_Store
+
+.vercel
