@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>버니 케어 (Bunny Care) - 귀여운 토끼 키우기 시뮬레이션</title>
+    <meta name="description" content="파스텔 톤의 귀엽고 아기자기한 토끼 육성 시뮬레이션 웹 게임. 먹이 주기, 쓰다듬기, 정원 산책, 성장과 번식, 도감과 꾸미기를 즐겨보세요!">
+    <link rel="stylesheet" href="style.css?v=4.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐰</text></svg>">
+</head>
+<body>
+    <!-- 배경 부유 데코레이션 -->
+    <div class="bg-decorations" aria-hidden="true">
+        <div class="bg-bubble b1"></div>
+        <div class="bg-bubble b2"></div>
+        <div class="bg-bubble b3"></div>
+        <div class="bg-bubble b4"></div>
+    </div>
+
+    <!-- 토스트 알림 컨테이너 -->
+    <div id="toast-container" aria-live="polite"></div>
+
+    <!-- 메인 앱 컨테이너 (16:9 와이드 레이아웃) -->
+    <main id="app-container" class="wide-layout">
+        <!-- 상단 헤더 -->
+        <header class="app-header">
+            <div class="header-left">
+                <h1 class="game-title">
+                    <span class="bunny-icon">🐰</span> 버니 케어 <span class="sub-badge">Cozy Bunny Simulator</span>
+                </h1>
+            </div>
+            <div class="header-right">
+                <div class="coin-badge" id="coin-badge" title="보유 코인">
+                    <span>🪙</span> <span id="coin-display">150</span>
+                </div>
+                <button class="icon-btn" id="btn-sound-toggle" title="사운드 켜기/끄기" aria-label="사운드 토글">🔊</button>
+            </div>
+        </header>
+
+        <!-- 와이드 3단 메인 바디 -->
+        <div class="app-main-body">
+            <!-- [좌측 패널] 상태 및 프로필 -->
+            <aside class="panel-sidebar-left">
+                <!-- 토끼 프로필 카드 -->
+                <div class="panel-card profile-card">
+                    <div class="bunny-profile-header">
+                        <div>
+                            <div class="bunny-name-row">
+                                <span class="bunny-name" id="bunny-display-name">모찌</span>
+                                <span class="gender-badge female" id="bunny-gender-badge">♀ 공주</span>
+                                <button class="pill-btn mini-btn" id="btn-edit-name" title="이름 수정">✏️</button>
+                            </div>
+                            <span class="stage-badge stage-baby" id="bunny-stage-badge">🐣 아기 토끼</span>
+                        </div>
+                    </div>
+
+                    <!-- 성장 게이지 바 -->
+                    <div class="growth-bar-wrapper">
+                        <div class="growth-label-row">
+                            <span>🌱 성장도</span>
+                            <span id="growth-text">성장 중: 0%</span>
+                        </div>
+                        <div class="growth-bar-outer">
+                            <div class="growth-bar-inner" id="growth-bar-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4대 스탯 게이지 (배부름, 기분, 건강, 기운) - 친밀도 게이지는 완전 삭제됨 -->
+                <div class="panel-card stats-card">
+                    <h3 class="panel-card-title">📊 토끼 건강 & 상태</h3>
+                    <div class="stats-list">
+                        <div class="stat-row stat-hunger" title="음식을 먹여 채워주세요">
+                            <div class="stat-row-info">
+                                <span>🥕 배부름</span>
+                                <span class="stat-num" id="num-hunger">80%</span>
+                            </div>
+                            <div class="stat-bar-outer">
+                                <div class="stat-bar-inner" id="bar-hunger" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-row stat-mood" title="쓰다듬거나 놀아주세요">
+                            <div class="stat-row-info">
+                                <span>💖 행복 기분</span>
+                                <span class="stat-num" id="num-mood">90%</span>
+                            </div>
+                            <div class="stat-bar-outer">
+                                <div class="stat-bar-inner" id="bar-mood" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-row stat-health" title="영양 섭취와 케어로 유지">
+                            <div class="stat-row-info">
+                                <span>🍀 건강 상태</span>
+                                <span class="stat-num" id="num-health">100%</span>
+                            </div>
+                            <div class="stat-bar-outer">
+                                <div class="stat-bar-inner" id="bar-health" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-row stat-energy" title="낮잠으로 회복">
+                            <div class="stat-row-info">
+                                <span>⚡ 기운 활력</span>
+                                <span class="stat-num" id="num-energy">85%</span>
+                            </div>
+                            <div class="stat-bar-outer">
+                                <div class="stat-bar-inner" id="bar-energy" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 먹이 인벤토리 현황 -->
+                <div class="panel-card foods-stock-card">
+                    <h3 class="panel-card-title">🧺 먹이 보관함</h3>
+                    <div class="food-stock-grid">
+                        <div class="food-stock-item" data-food="carrot" title="아삭한 신선 당근">
+                            <span class="food-icon">🥕</span>
+                            <span class="food-stock-name">당근</span>
+                            <span class="food-stock-count" id="stock-carrot">5개</span>
+                        </div>
+                        <div class="food-stock-item" data-food="hay" title="향긋한 알파파 건초">
+                            <span class="food-icon">🌾</span>
+                            <span class="food-stock-name">건초</span>
+                            <span class="food-stock-count" id="stock-hay">3개</span>
+                        </div>
+                        <div class="food-stock-item" data-food="strawberry" title="달콤한 야생 딸기">
+                            <span class="food-icon">🍓</span>
+                            <span class="food-stock-name">딸기</span>
+                            <span class="food-stock-count" id="stock-strawberry">2개</span>
+                        </div>
+                        <div class="food-stock-item" data-food="clover" title="행운의 네잎클로버">
+                            <span class="food-icon">🍀</span>
+                            <span class="food-stock-name">클로버</span>
+                            <span class="food-stock-count" id="stock-clover">1개</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- [중앙 패널] 와이드 토끼 룸 & 먹이 인터랙션 무대 -->
+            <section class="panel-center-stage">
+                <!-- 동적 알림 배너 (임신, 배고픔 경고) -->
+                <div id="status-banner" class="status-banner" style="display: none;"></div>
+
+                <!-- 실제 반려토끼 생활 공간 사진 스테이지 -->
+                <div class="stage-room" id="stage-room" title="토끼를 클릭하거나 쓰다듬어 보세요!">
+                    <!-- 생활 공간 원목 소품들 (원경 및 바닥) -->
+                    <div class="room-props-layer">
+                        <div class="room-prop prop-hay-box" title="건초 바구니">🧺</div>
+                        <div class="room-prop prop-water" title="신선한 물그릇">🥣</div>
+                        <div class="room-prop prop-ball" title="놀이 방울 공">🧶</div>
+                    </div>
+
+                    <!-- 말풍선 -->
+                    <div class="bunny-speech-bubble" id="bunny-speech-bubble">안녕! 나를 사랑으로 돌봐줘 🐰</div>
+
+                    <!-- 토끼 인터랙티브 래퍼 (엄마 토끼) -->
+                    <div class="bunny-wrapper" id="bunny-wrapper">
+                        <!-- JS로 실제 토끼 사진 및 오버레이 렌더링 -->
+                    </div>
+
+                    <!-- ★ 함께 있는 귀여운 아기 토끼들 레이어 (출산 후 엄마 곁에 작게 함께 옹기종기) -->
+                    <div class="baby-bunnies-container" id="baby-bunnies-container">
+                        <!-- JS로 엄마 곁에 작고 사랑스러운 아기 토끼들 렌더링 -->
+                    </div>
+
+                    <!-- ★ 먹이 주는 실시간 인터랙션 레이어 (손 + 먹이 등장 및 축소 섭취) -->
+                    <div id="feeding-interaction-layer" class="feeding-layer" style="display: none;">
+                        <div class="feeding-hand-arm" id="feeding-hand">
+                            <span class="hand-graphic">🖐️</span>
+                            <div class="feeding-held-food" id="feeding-held-food">
+                                <!-- 먹이 모양 SVG가 동적으로 들어갑니다 -->
+                            </div>
+                        </div>
+                        <div class="food-crumbs-container" id="food-crumbs"></div>
+                    </div>
+                </div>
+
+                <!-- 먹이 주기 선택 퀵바 -->
+                <div class="feed-quick-selector" id="feed-quick-selector">
+                    <span class="feed-selector-title">🥕 먹이 주기:</span>
+                    <button class="sub-item-btn food-item-btn" data-food="carrot">🥕 당근 주기</button>
+                    <button class="sub-item-btn food-item-btn" data-food="hay">🌾 건초 주기</button>
+                    <button class="sub-item-btn food-item-btn" data-food="strawberry">🍓 딸기 주기</button>
+                    <button class="sub-item-btn food-item-btn" data-food="clover">🍀 클로버 주기</button>
+                </div>
+            </section>
+
+            <!-- [우측 패널] 돌보기 액션 & 주요 시스템 내비게이션 -->
+            <aside class="panel-sidebar-right">
+                <!-- 케어 액션 그룹 -->
+                <div class="panel-card action-card">
+                    <h3 class="panel-card-title">🐰 토끼 돌보기</h3>
+                    <div class="care-buttons-vertical">
+                        <button class="action-btn-large" id="action-feed" title="맛있는 먹이를 직접 손으로 건네줍니다">
+                            <span class="action-icon">🥕</span>
+                            <div class="action-btn-text">
+                                <strong>밥 주기</strong>
+                                <small>당근·건초·딸기 먹이기</small>
+                            </div>
+                        </button>
+                        <button class="action-btn-large" id="action-pet" title="부드럽게 쓰다듬기 (다양한 반응 & 소리)">
+                            <span class="action-icon">👋</span>
+                            <div class="action-btn-text">
+                                <strong>쓰다듬기</strong>
+                                <small>하트 뿜뿜 & 골골 반응</small>
+                            </div>
+                        </button>
+                        <button class="action-btn-large" id="action-play" title="방울 장난감으로 신나게 놀기">
+                            <span class="action-icon">🧶</span>
+                            <div class="action-btn-text">
+                                <strong>놀아주기</strong>
+                                <small>깡총깡총 점프 & 기분 UP</small>
+                            </div>
+                        </button>
+                        <button class="action-btn-large" id="action-aegyo" title="토끼의 귀여운 심쿵 애교 보기!">
+                            <span class="action-icon">🥰</span>
+                            <div class="action-btn-text">
+                                <strong>애교 보기</strong>
+                                <small>발라당·뱅키 점프·코콕 뽀뽀</small>
+                            </div>
+                        </button>
+                        <button class="action-btn-large" id="action-sleep" title="포근한 침대에서 낮잠자기">
+                            <span class="action-icon">🌙</span>
+                            <div class="action-btn-text">
+                                <strong>낮잠자기</strong>
+                                <small>체력과 에너지 충전</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 데이트 & 짝짓기 (친밀도 제한 없음!) -->
+                <div class="panel-card mate-card">
+                    <h3 class="panel-card-title">💖 사랑과 번식</h3>
+                    <p class="mate-card-desc">친밀도 제한 없이 언제든 설레는 데이트와 짝짓기를 진행할 수 있어요!</p>
+                    <button class="btn-primary mate-launch-btn" id="btn-open-mate">
+                        <span>💖</span> 짝꿍 데이트 & 번식
+                    </button>
+                </div>
+
+                <!-- 하단 주요 기능 내비게이션 -->
+                <nav class="side-nav-grid">
+                    <button class="nav-tab-btn" id="nav-walk">
+                        <span class="nav-icon">🌿</span>
+                        <span class="nav-label">산책하기</span>
+                    </button>
+                    <button class="nav-tab-btn" id="nav-family">
+                        <span class="nav-icon">👨‍👩‍👧‍👦</span>
+                        <span class="nav-label">우리 가족</span>
+                    </button>
+                    <button class="nav-tab-btn" id="nav-dex">
+                        <span class="nav-icon">📖</span>
+                        <span class="nav-label">털색 도감</span>
+                    </button>
+                    <button class="nav-tab-btn" id="nav-shop">
+                        <span class="nav-icon">🛒</span>
+                        <span class="nav-label">상점/꾸미기</span>
+                    </button>
+                </nav>
+            </aside>
+        </div>
+    </main>
+
+    <!-- 모달: 산책 (Walk Mode) -->
+    <div class="modal-overlay" id="modal-walk" role="dialog" aria-modal="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">🌿 두근두근 산책하기</h3>
+                <button class="modal-close-btn" aria-label="닫기">✕</button>
+            </div>
+            <div class="modal-body">
+                <!-- 1단계: 산책 장소 선택 -->
+                <div id="walk-select-view">
+                    <p style="font-size: 0.85rem; color: #888; margin-bottom: 12px; text-align: center;">
+                        산책할 장소를 골라보세요! 아이템과 코인을 주울 수 있어요.
+                    </p>
+                    <div class="walk-places-grid">
+                        <div class="walk-place-card place-garden" data-place="garden">
+                            <span class="place-icon">🌸</span>
+                            <div class="place-info">
+                                <h4>비밀 벚꽃 정원</h4>
+                                <p>벚꽃잎이 흩날리는 평화로운 정원. 당근과 코인을 자주 주워요.</p>
+                            </div>
+                        </div>
+                        <div class="walk-place-card place-meadow" data-place="meadow">
+                            <span class="place-icon">🌼</span>
+                            <div class="place-info">
+                                <h4>무지개 꽃밭</h4>
+                                <p>향긋한 꽃들이 가득 피어난 들판. 네잎클로버를 찾기 좋아요.</p>
+                            </div>
+                        </div>
+                        <div class="walk-place-card place-forest" data-place="forest">
+                            <span class="place-icon">🌲</span>
+                            <div class="place-info">
+                                <h4>신비로운 요정의 숲</h4>
+                                <p>신선한 공기와 마법의 기운이 감도는 숲. 희귀한 열매를 발견해요.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2단계: 실시간 산책 어드벤처 화면 -->
+                <div id="walk-adventure-view" style="display: none;">
+                    <div class="walk-adventure-screen" id="walk-adventure-screen">
+                        <div class="walk-progress-hud">
+                            <span id="walk-hud-place">비밀 벚꽃 정원 🌸</span>
+                            <span>진행률: <span id="walk-hud-prog">0%</span></span>
+                        </div>
+                        <div class="walk-bg-scroller" id="walk-bg-scroller"></div>
+                        <div class="walk-bunny-runner" id="walk-bunny-runner"></div>
+                        <div class="walk-log-box">
+                            ✨ 깡총깡총 뛰며 탐험 중이에요! 반짝이는 아이템을 탭해보세요!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달: 가족 관리 (Family Hub) -->
+    <div class="modal-overlay" id="modal-family" role="dialog" aria-modal="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">👨‍👩‍👧‍👦 우리 토끼 가족 목록</h3>
+                <button class="modal-close-btn" aria-label="닫기">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.85rem; color: #888; margin-bottom: 12px;">
+                    가족 토끼를 선택하여 메인 룸에서 돌볼 수 있습니다.
+                </p>
+                <div class="family-list" id="family-bunnies-list">
+                    <!-- JS 렌더링 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달: 털색 도감 (Bunny Dex) -->
+    <div class="modal-overlay" id="modal-dex" role="dialog" aria-modal="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">📖 토끼 품종 & 털색 도감</h3>
+                <button class="modal-close-btn" aria-label="닫기">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.85rem; color: #888; margin-bottom: 12px; text-align: center;">
+                    임신과 출산, 유전을 통해 전설의 토끼를 모두 만나보세요!
+                </p>
+                <div class="dex-grid" id="dex-grid">
+                    <!-- JS 렌더링 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달: 상점 & 방 꾸미기 (Shop & Decor) -->
+    <div class="modal-overlay" id="modal-shop" role="dialog" aria-modal="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">🛒 당근 마켓 & 인테리어</h3>
+                <button class="modal-close-btn" aria-label="닫기">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="shop-tabs">
+                    <button class="shop-tab-btn active" data-tab="foods">🥕 영양 먹이</button>
+                    <button class="shop-tab-btn" data-tab="acc">🎀 액세서리</button>
+                    <button class="shop-tab-btn" data-tab="decor">🏡 방 꾸미기</button>
+                </div>
+                <div class="shop-grid" id="shop-items-grid">
+                    <!-- JS 렌더링 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달: 짝짓기 파트너 선택 (Mate Selection) -->
+    <div class="modal-overlay" id="modal-mate" role="dialog" aria-modal="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">💖 짝꿍 토끼 만나기</h3>
+                <button class="modal-close-btn" aria-label="닫기">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.85rem; color: #888; margin-bottom: 12px;">
+                    친밀도 조건 없이 누구와도 데이트할 수 있어요! 함께 시간을 보낸 뒤 바로 짝짓기가 가능합니다.
+                </p>
+                <div class="mate-options-container" id="mate-candidates-container">
+                    <!-- JS 렌더링 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ★ 모달: 데이트 인터랙티브 씬 (Date Animation Scene) -->
+    <div class="modal-overlay" id="modal-date-scene" role="dialog" aria-modal="true">
+        <div class="modal-card date-modal-card">
+            <div class="modal-header" style="background: linear-gradient(135deg, #FFE5EC, #FFF0F5);">
+                <h3 class="modal-title">🌸 두근두근 꽃밭 데이트</h3>
+                <button class="modal-close-btn" aria-label="닫기">✕</button>
+            </div>
+            <div class="modal-body" style="padding: 15px; text-align: center;">
+                <div class="date-stage-view" id="date-stage-view">
+                    <!-- 꽃잎 흩날리는 배경 -->
+                    <div class="date-petals-overlay"></div>
+                    
+                    <!-- 두 토끼가 함께 뛰어놀고 뽀뽀하는 구역 -->
+                    <div class="date-bunnies-row">
+                        <div class="date-bunny-box date-bunny-left" id="date-bunny-left"></div>
+                        <div class="date-heart-center" id="date-heart-center">💖</div>
+                        <div class="date-bunny-box date-bunny-right" id="date-bunny-right"></div>
+                    </div>
+                </div>
+
+                <div class="date-dialogue-box" id="date-dialogue-box">
+                    두 토끼가 꽃향기를 맡으며 서로에게 다가가 코를 맞대고 있어요... 💕
+                </div>
+
+                <!-- 데이트 직후 즉시 짝짓기(번식) 진행 버튼 -->
+                <div class="date-actions-row">
+                    <button class="btn-primary mate-confirm-btn" id="btn-start-mating-now">
+                        💖 지금 바로 짝짓기 시작하기 (아기 만들기) 🍼
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달: 출산 및 아기 이름 짓기 (Birth Celebration) -->
+    <div class="modal-overlay" id="modal-birth" role="dialog" aria-modal="true">
+        <div class="modal-card">
+            <div class="modal-header" style="background: linear-gradient(135deg, #FFE5EC, #FFF9E6);">
+                <h3 class="modal-title">🎉 아기 토끼가 태어났어요!</h3>
+            </div>
+            <div class="modal-body birth-modal-content">
+                <p style="font-size: 0.95rem; color: #E63946; font-weight: 700;">
+                    축하합니다! 소중한 생명이 건강하게 탄생했습니다 💕
+                </p>
+                <p style="font-size: 0.82rem; color: #888; margin-top: 4px;">
+                    부모의 털 색과 무늬를 물려받은 아기 토끼들의 이름을 지어주세요!
+                </p>
+
+                <div class="birth-babies-grid" id="birth-babies-container">
+                    <!-- JS 렌더링 -->
+                </div>
+
+                <button class="btn-primary" id="btn-confirm-birth" style="width: 100%; margin-top: 10px;">
+                    새 가족으로 맞이하기 🍼
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 스크립트 연결 (캐시 무효화 적용 v4.0) -->
+    <script src="audio.js?v=4.0"></script>
+    <script src="bunny.js?v=4.0"></script>
+    <script src="game.js?v=4.0"></script>
+</body>
+</html>

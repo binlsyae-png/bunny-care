@@ -1,0 +1,1763 @@
+/* Bunny Care - Cute Pastel Pink & Cream Aesthetic Theme (Wide 16:9 Layout) */
+
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Nunito:wght@400;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+:root {
+    --bg-main: #FFF5F7;
+    --bg-cream: #FFFDF9;
+    --primary: #FF7597;
+    --primary-light: #FFB3C6;
+    --primary-soft: #FFE4EC;
+    --primary-dark: #E64973;
+    
+    --cream: #FFF9E6;
+    --cream-deep: #FFE8B6;
+    --caramel: #8D5B4C;
+    --text-main: #4A3B40;
+    --text-muted: #8E7C85;
+    
+    --accent-mint: #B7E4C7;
+    --accent-yellow: #FFE382;
+    --accent-purple: #DBC4F0;
+    
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --card-border: rgba(255, 182, 193, 0.55);
+    --shadow-soft: 0 12px 28px -6px rgba(255, 117, 151, 0.18), 0 8px 12px -6px rgba(0, 0, 0, 0.05);
+    --shadow-pop: 0 14px 30px rgba(255, 117, 151, 0.28);
+    
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Jua', 'Nunito', 'Noto Sans KR', sans-serif;
+    background: linear-gradient(135deg, #FFF0F3 0%, #FFF8F0 50%, #FFEBF0 100%);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 12px;
+}
+
+/* 감성적인 배경 부유 데코레이션 */
+.bg-decorations {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.bg-bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 214, 224, 0.25) 80%);
+    animation: floatSlow 14s infinite ease-in-out alternate;
+}
+
+.b1 { width: 260px; height: 260px; top: -60px; left: -60px; }
+.b2 { width: 420px; height: 420px; bottom: -120px; right: -120px; animation-duration: 20s; }
+.b3 { width: 180px; height: 180px; top: 40%; left: 4%; animation-duration: 13s; }
+.b4 { width: 220px; height: 220px; top: 15%; right: 4%; animation-duration: 17s; }
+
+@keyframes floatSlow {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(35px) rotate(15deg); }
+}
+
+/* 토스트 알림 */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+    width: 90%;
+    max-width: 400px;
+}
+
+.toast {
+    background: rgba(255, 255, 255, 0.98);
+    border: 2px solid var(--primary-light);
+    border-radius: 16px;
+    padding: 10px 18px;
+    box-shadow: 0 10px 25px rgba(255, 117, 151, 0.28);
+    color: var(--text-main);
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: 700;
+    animation: toastSlideDown 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes toastSlideDown {
+    0% { transform: translateY(-30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* ====================================================
+   ★ 16:9 와이드 메인 컨테이너
+==================================================== */
+#app-container.wide-layout {
+    position: relative;
+    z-index: 1;
+    width: 96vw;
+    max-width: 1260px;
+    height: 94vh;
+    max-height: 760px;
+    min-height: 620px;
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 3px solid rgba(255, 255, 255, 0.95);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft), 0 0 0 1px var(--card-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 헤더 영역 */
+.app-header {
+    padding: 12px 24px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.7);
+    border-bottom: 2px dashed rgba(255, 182, 193, 0.5);
+    flex-shrink: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.game-title {
+    font-size: 1.55rem;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-shadow: 1px 1px 0px #fff;
+}
+
+.game-title span.bunny-icon {
+    font-size: 1.7rem;
+    display: inline-block;
+    animation: bunnyWiggle 3s infinite ease-in-out;
+}
+
+.sub-badge {
+    font-size: 0.76rem;
+    background: #FFE5EC;
+    color: #FF477E;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+@keyframes bunnyWiggle {
+    0%, 100% { transform: rotate(0deg); }
+    15% { transform: rotate(-8deg); }
+    30% { transform: rotate(8deg); }
+    45% { transform: rotate(0deg); }
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.coin-badge {
+    background: #FFF2B2;
+    border: 2px solid #F3C64D;
+    color: #8C5205;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(243, 198, 77, 0.35);
+}
+
+.icon-btn {
+    background: white;
+    border: 2px solid var(--primary-light);
+    color: var(--primary);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.15rem;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 2px 6px rgba(255, 117, 151, 0.2);
+}
+
+.icon-btn:hover {
+    transform: scale(1.1);
+    background: var(--primary-soft);
+}
+
+/* ====================================================
+   ★ 3단 와이드 레이아웃 그리드
+==================================================== */
+.app-main-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 290px 1fr 285px;
+    gap: 14px;
+    padding: 14px 20px 16px;
+    overflow: hidden;
+}
+
+/* 카드 기본 스타일 */
+.panel-card {
+    background: rgba(255, 255, 255, 0.85);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    box-shadow: 0 4px 14px rgba(255, 117, 151, 0.08);
+}
+
+.panel-card-title {
+    font-size: 0.95rem;
+    color: var(--caramel);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1.5px dashed rgba(255, 182, 193, 0.5);
+    padding-bottom: 5px;
+}
+
+/* ====================================================
+   [좌측 패널] 프로필 & 상태 & 먹이 보관함
+==================================================== */
+.panel-sidebar-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.profile-card {
+    padding: 12px 14px;
+}
+
+.bunny-profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.bunny-name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.bunny-name {
+    font-size: 1.35rem;
+    color: var(--caramel);
+    font-weight: 700;
+}
+
+.gender-badge {
+    font-size: 0.95rem;
+}
+.gender-badge.female { color: #FF477E; }
+.gender-badge.male { color: #3A86FF; }
+
+.mini-btn {
+    padding: 2px 7px;
+    font-size: 0.72rem;
+    background: white;
+    border: 1.5px solid var(--primary-light);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.stage-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+.stage-baby { background: #FFE5EC; color: #E63946; }
+.stage-junior { background: #E0F2FE; color: #0284C7; }
+.stage-adult { background: #DCFCE7; color: #16A34A; }
+
+.growth-bar-wrapper {
+    margin-top: 6px;
+}
+
+.growth-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.growth-bar-outer {
+    width: 100%;
+    height: 9px;
+    background: #F3E8EE;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.growth-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, #FF9EAA, #FF5B79);
+    border-radius: 8px;
+    transition: width 0.4s ease;
+}
+
+/* 4대 스탯 리스트 */
+.stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.stat-row-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.stat-bar-outer {
+    width: 100%;
+    height: 8px;
+    background: #F0E6EA;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.stat-bar-inner {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.4s ease-out;
+}
+
+.stat-hunger .stat-bar-inner { background: linear-gradient(90deg, #FFB703, #FB8500); }
+.stat-mood .stat-bar-inner { background: linear-gradient(90deg, #FF758F, #FF477E); }
+.stat-health .stat-bar-inner { background: linear-gradient(90deg, #52B788, #2D6A4F); }
+.stat-energy .stat-bar-inner { background: linear-gradient(90deg, #4EA8DE, #48CAE4); }
+
+/* 먹이 보관함 그리드 */
+.food-stock-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.food-stock-item {
+    background: #FFF8FA;
+    border: 1.5px solid #FFD6E0;
+    border-radius: var(--radius-sm);
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.food-stock-item:hover {
+    background: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 117, 151, 0.15);
+}
+
+.food-icon {
+    font-size: 1.6rem;
+}
+
+.food-stock-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.food-stock-count {
+    font-size: 0.72rem;
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+/* ====================================================
+   [중앙 패널] 와이드 토끼 룸 & 먹이 인터랙션 무대
+==================================================== */
+.panel-center-stage {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    gap: 8px;
+}
+
+/* 상태 알림 배너 */
+.status-banner {
+    background: #FFF3CD;
+    border: 1.5px solid #FFE69C;
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    color: #856404;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-banner.pregnant-banner {
+    background: #FFE8F0;
+    border-color: #FFAEC0;
+    color: #B5179E;
+}
+
+.status-banner-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+}
+
+/* 와이드 실제 생활 공간 룸 */
+.stage-room {
+    flex: 1;
+    position: relative;
+    background: url('assets/room_bg.jpg') center bottom / cover no-repeat;
+    border: 3px solid #FFCCD5;
+    border-radius: var(--radius-lg);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(255, 117, 151, 0.16), inset 0 0 35px rgba(255, 230, 240, 0.25);
+    min-height: 380px;
+    padding-bottom: 20px;
+}
+
+.stage-room::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 240, 245, 0.06) 60%, rgba(140, 98, 110, 0.18) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 룸 소품 레이어 */
+.room-props-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.room-prop {
+    position: absolute;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+.prop-hay-box {
+    bottom: 30px;
+    right: 25px;
+    font-size: 2.8rem;
+}
+.prop-water {
+    bottom: 25px;
+    left: 28px;
+    font-size: 2.2rem;
+}
+.prop-ball {
+    bottom: 28px;
+    left: 100px;
+    font-size: 2rem;
+    animation: ballBounce 4s infinite ease-in-out;
+}
+
+@keyframes ballBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* 말풍선 */
+.bunny-speech-bubble {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    background: rgba(255, 255, 255, 0.96);
+    border: 2px solid var(--primary-light);
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: 0.92rem;
+    color: var(--primary-dark);
+    box-shadow: 0 4px 16px rgba(255, 117, 151, 0.25);
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s, transform 0.3s;
+    opacity: 0;
+    font-weight: 700;
+}
+
+.bunny-speech-bubble.active {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.bunny-speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px 7px 0;
+    border-style: solid;
+    border-color: var(--primary-light) transparent transparent;
+    display: block;
+    width: 0;
+}
+
+/* 토끼 래퍼 (자율 이동 & 사각형 박스 없는 순수 토끼 실루엣) */
+.bunny-wrapper {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    width: 270px;
+    height: 270px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    transition: left 1.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s ease;
+    cursor: pointer;
+}
+
+.bunny-photoreal-wrapper {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    transform-origin: center bottom;
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: transparent !important;
+}
+
+/* 실제 집 바닥(카펫) 위 자연스러운 2중 접촉 그림자 (Contact AO + Soft Shadow) */
+.bunny-real-ground-shadow {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 170px;
+    height: 28px;
+    background: radial-gradient(ellipse at center, rgba(30, 16, 14, 0.72) 0%, rgba(45, 25, 20, 0.4) 40%, rgba(0, 0, 0, 0) 75%);
+    border-radius: 50%;
+    filter: blur(4px);
+    pointer-events: none;
+    z-index: 1;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+/* ★ 사각형 박스 완전 제거: 오직 투명 토끼 몸체만 입체적으로 렌더링 */
+.bunny-real-image-box {
+    position: relative;
+    z-index: 2;
+    width: 215px;
+    height: 215px;
+    overflow: visible;
+    border-radius: 0 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
+    mix-blend-mode: normal !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    filter: drop-shadow(0 10px 14px rgba(45, 25, 20, 0.32));
+    transition: filter 0.3s ease;
+}
+
+.bunny-real-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+    background: transparent !important;
+    border: none !important;
+}
+
+.bunny-overlay-svg {
+    position: absolute;
+    inset: -14px -18px 0 -18px;
+    width: calc(100% + 36px);
+    height: calc(100% + 14px);
+    z-index: 5;
+    pointer-events: none;
+    overflow: visible;
+}
+
+/* ====================================================
+   ★ 2. 출산 후 엄마 토끼와 함께 지내는 아기 토끼들 레이어
+   (각자 독립적으로 자유롭게 움직이는 아기 토끼 군집)
+==================================================== */
+.baby-bunnies-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.baby-bunny-wrapper-item {
+    position: absolute;
+    bottom: 16px;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: left 1.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s ease;
+    transform-origin: center bottom;
+    background: transparent !important;
+}
+
+.baby-bunny-body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    background: transparent !important;
+}
+
+/* 아기 토끼 바닥 접촉 그림자 */
+.baby-bunny-shadow {
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75px;
+    height: 16px;
+    background: radial-gradient(ellipse at center, rgba(30, 16, 14, 0.65) 0%, rgba(45, 25, 20, 0.32) 45%, rgba(0, 0, 0, 0) 75%);
+    border-radius: 50%;
+    filter: blur(2.5px);
+    pointer-events: none;
+    transition: transform 0.3s ease;
+}
+
+.baby-bunny-image-box {
+    position: relative;
+    z-index: 2;
+    width: 90px;
+    height: 90px;
+    border-radius: 0 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    overflow: visible;
+    mix-blend-mode: normal !important;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    filter: drop-shadow(0 6px 8px rgba(45, 25, 20, 0.28));
+}
+
+.baby-overlay-svg {
+    position: absolute;
+    inset: -6px -10px 0 -10px;
+    width: calc(100% + 20px);
+    height: calc(100% + 6px);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.baby-bunny-nametag {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.94);
+    border: 1.5px solid var(--primary-light);
+    border-radius: 12px;
+    padding: 1px 7px;
+    font-size: 0.72rem;
+    color: var(--primary-dark);
+    font-weight: 800;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(255, 117, 151, 0.2);
+    pointer-events: none;
+}
+
+/* ★ 아기 토끼 5가지 개별 자율 행동 애니메이션 */
+/* 1. 깡총깡총 뛰기 (Hop) */
+.baby-bunny-wrapper-item.state-hop .baby-bunny-body {
+    animation: babyHopLoop 0.65s ease-in-out;
+}
+.baby-bunny-wrapper-item.state-hop .baby-bunny-shadow {
+    transform: translateX(-50%) scale(0.65);
+    opacity: 0.45;
+}
+@keyframes babyHopLoop {
+    0% { transform: translateY(0) scale(1, 0.92); }
+    40% { transform: translateY(-32px) scale(0.92, 1.12); }
+    75% { transform: translateY(-6px) scale(1.05, 0.95); }
+    100% { transform: translateY(0) scale(1, 1); }
+}
+
+/* 2. 아장아장 천천히 걷기 (Walk / Toddle) */
+.baby-bunny-wrapper-item.state-walk .baby-bunny-body {
+    animation: babyWalkLoop 0.8s infinite alternate ease-in-out;
+}
+@keyframes babyWalkLoop {
+    0% { transform: translateY(0) rotate(-3deg); }
+    100% { transform: translateY(-5px) rotate(3deg); }
+}
+
+/* 3. 멈춰서 주변 살펴보기 (Look / Curious) */
+.baby-bunny-wrapper-item.state-look .baby-bunny-body {
+    animation: babyLookLoop 1.6s ease-in-out;
+}
+@keyframes babyLookLoop {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg) translateY(-3px) scale(1.02); }
+    60% { transform: rotate(5deg) translateY(-3px) scale(1.02); }
+    85% { transform: rotate(-2deg); }
+}
+
+/* 4. 코 움직이기 / 킁킁 (Sniff) */
+.baby-bunny-wrapper-item.state-sniff .baby-bunny-body {
+    animation: babySniffLoop 1.1s ease-in-out;
+}
+@keyframes babySniffLoop {
+    0%, 100% { transform: scale(1) translateY(0); }
+    25% { transform: scale(1.04, 0.96) translateY(2px); }
+    50% { transform: scale(0.98, 1.02) translateY(-2px); }
+    75% { transform: scale(1.03, 0.97) translateY(1px); }
+}
+
+/* 5. 기본 유휴 상태 (Idle / Breathe) */
+.baby-bunny-wrapper-item.state-idle .baby-bunny-body {
+    animation: babyIdleBreathe 2.5s infinite ease-in-out;
+}
+@keyframes babyIdleBreathe {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.02, 0.98) translateY(1px); }
+}
+
+/* ====================================================
+   ★ 1. 다채로운 토끼 행동 & 애교(Aegyo) 애니메이션
+==================================================== */
+/* 애교 1: 발라당 눕기 (Flop - 옆으로 털썩 눕고 배 보여주기) */
+.bunny-photoreal-wrapper.anim-aegyo_flop {
+    animation: bunnyAegyoFlop 1.8s ease-in-out;
+}
+@keyframes bunnyAegyoFlop {
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.05) translateY(-10px) rotate(-15deg); }
+    50% { transform: scale(1.08, 0.88) translateY(18px) rotate(65deg); }
+    80% { transform: scale(1.06, 0.9) translateY(16px) rotate(60deg); }
+    100% { transform: scale(1) translateY(0) rotate(0deg); }
+}
+
+/* 애교 2: 엉덩이 씰룩 뱅키 점프 (Binky - 신나서 공중 몸 비틀기) */
+.bunny-photoreal-wrapper.anim-aegyo_binky {
+    animation: bunnyAegyoBinky 1.2s ease-in-out;
+}
+@keyframes bunnyAegyoBinky {
+    0% { transform: scale(1) translateY(0); }
+    30% { transform: scale(0.95, 1.1) translateY(-55px) rotate(-18deg); }
+    55% { transform: scale(1.05, 0.95) translateY(-60px) rotate(22deg); }
+    80% { transform: scale(1) translateY(-15px) rotate(-5deg); }
+    100% { transform: scale(1) translateY(0) rotate(0deg); }
+}
+
+/* 애교 3: 화면 쪽으로 성큼성큼 다가와 코 콕 뽀뽀 (Boop) */
+.bunny-photoreal-wrapper.anim-aegyo_boop {
+    animation: bunnyAegyoBoop 1.6s ease-in-out;
+    z-index: 50;
+}
+@keyframes bunnyAegyoBoop {
+    0% { transform: scale(1) translateY(0); }
+    35% { transform: scale(1.4) translateY(-15px); }
+    60% { transform: scale(1.52) translateY(-20px) rotate(2deg); }
+    80% { transform: scale(1.4) translateY(-10px); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+/* 애교 4: 앞발 들고 서서 간식 조르기 (Periscope) */
+.bunny-photoreal-wrapper.anim-aegyo_periscope {
+    animation: bunnyAegyoPeriscope 1.6s ease-in-out;
+}
+@keyframes bunnyAegyoPeriscope {
+    0%, 100% { transform: scale(1) translateY(0); }
+    30% { transform: scale(0.92, 1.14) translateY(-14px); }
+    60% { transform: scale(0.94, 1.12) translateY(-12px) rotate(2deg); }
+    85% { transform: scale(0.96, 1.08) translateY(-8px); }
+}
+/* 기본 숨쉬기 (Idle) */
+.bunny-photoreal-wrapper.anim-idle {
+    animation: realBunnyBreathe 3.2s infinite ease-in-out;
+}
+@keyframes realBunnyBreathe {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.02, 0.985) translateY(1px); }
+}
+
+/* 킁킁거리기 (Sniffing) */
+.bunny-photoreal-wrapper.anim-sniffing {
+    animation: bunnySniffAction 0.9s ease-in-out;
+}
+@keyframes bunnySniffAction {
+    0%, 100% { transform: scale(1) translateY(0); }
+    25% { transform: scale(1.02, 0.97) translateY(2px) rotate(1deg); }
+    50% { transform: scale(1.01, 1.02) translateY(-2px) rotate(-1deg); }
+    75% { transform: scale(1.03, 0.98) translateY(1px); }
+}
+
+/* 그루밍 / 얼굴 닦기 (Grooming) */
+.bunny-photoreal-wrapper.anim-grooming {
+    animation: bunnyGroomAction 1.6s ease-in-out;
+}
+@keyframes bunnyGroomAction {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    20% { transform: scale(0.98, 1.03) translateY(-4px) rotate(-3deg); }
+    40% { transform: scale(1.02, 0.97) translateY(2px) rotate(4deg); }
+    60% { transform: scale(0.98, 1.02) translateY(-3px) rotate(-3deg); }
+    80% { transform: scale(1.01, 0.98) translateY(1px) rotate(2deg); }
+}
+
+/* 기지개 켜기 (Stretching) */
+.bunny-photoreal-wrapper.anim-stretching {
+    animation: bunnyStretchAction 1.5s ease-in-out;
+}
+@keyframes bunnyStretchAction {
+    0%, 100% { transform: scale(1) translateY(0); }
+    40% { transform: scale(1.06, 0.92) translateY(5px); }
+    70% { transform: scale(0.96, 1.05) translateY(-6px); }
+}
+
+/* 몸 털기 (Shaking) */
+.bunny-photoreal-wrapper.anim-shaking {
+    animation: bunnyShakeAction 0.6s ease-in-out;
+}
+@keyframes bunnyShakeAction {
+    0%, 100% { transform: rotate(0deg); }
+    15% { transform: rotate(-5deg) scale(1.03); }
+    30% { transform: rotate(5deg) scale(0.98); }
+    45% { transform: rotate(-4deg); }
+    60% { transform: rotate(4deg); }
+    80% { transform: rotate(-2deg); }
+}
+
+/* 귀 쫑긋거리기 (Ear Wiggle) */
+.bunny-photoreal-wrapper.anim-ear_wiggle {
+    animation: bunnyEarWiggleAction 1.1s ease-in-out;
+}
+@keyframes bunnyEarWiggleAction {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg) scale(1.02); }
+    60% { transform: rotate(3deg) scale(1.02); }
+}
+
+/* 먹이 씹기 (Eating / Munching) */
+.bunny-photoreal-wrapper.anim-eating {
+    animation: bunnyMunchMouth 0.4s infinite alternate ease-in-out;
+}
+@keyframes bunnyMunchMouth {
+    0% { transform: scale(1, 0.98) translateY(2px); }
+    100% { transform: scale(1.02, 1.01) translateY(-2px); }
+}
+
+/* 쓰다듬기 / 골골 (Petting / Happy) */
+.bunny-photoreal-wrapper.anim-petting,
+.bunny-photoreal-wrapper.anim-happy {
+    animation: bunnyPurrWiggle 0.4s infinite alternate ease-in-out;
+}
+@keyframes bunnyPurrWiggle {
+    0% { transform: scale(1.03) rotate(-2deg); }
+    100% { transform: scale(1.03) rotate(2deg); }
+}
+
+/* 깡총 점프 (Jumping) */
+.bunny-photoreal-wrapper.anim-jumping {
+    animation: bunnyHopJump 0.65s ease-in-out;
+}
+@keyframes bunnyHopJump {
+    0% { transform: translateY(0) scale(1, 0.95); }
+    40% { transform: translateY(-42px) scale(0.96, 1.08); }
+    75% { transform: translateY(-10px) scale(1.02, 0.98); }
+    100% { transform: translateY(0) scale(1, 1); }
+}
+
+/* 낮잠 (Sleeping) */
+.bunny-photoreal-wrapper.anim-sleeping {
+    animation: bunnySleepLoaf 4s infinite ease-in-out;
+}
+@keyframes bunnySleepLoaf {
+    0%, 100% { transform: scale(0.98, 0.94) translateY(4px); }
+    50% { transform: scale(1, 0.96) translateY(3px); }
+}
+
+/* 하트 파티클 */
+.floating-heart {
+    position: absolute;
+    font-size: 1.6rem;
+    pointer-events: none;
+    z-index: 25;
+    animation: floatUpFade 1.1s forwards cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+@keyframes floatUpFade {
+    0% { opacity: 0; transform: translate(-50%, 0) scale(0.5) rotate(0deg); }
+    20% { opacity: 1; transform: translate(-50%, -20px) scale(1.2) rotate(-8deg); }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), -90px) scale(1) rotate(15deg); }
+}
+
+/* ====================================================
+   ★ 2. 먹이 주는 실시간 인터랙션 레이어 (손 + 먹이 갉아먹기)
+==================================================== */
+.feeding-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    overflow: hidden;
+}
+
+.feeding-hand-arm {
+    position: absolute;
+    right: 15%;
+    bottom: -80px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transform: translate(0, 0);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 22;
+}
+
+.feeding-hand-arm.feeding-active {
+    transform: translate(-100px, -170px);
+}
+
+.hand-graphic {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+    transform: rotate(-25deg);
+    display: inline-block;
+}
+
+.feeding-held-food {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* 갉아먹히는 단계 */
+.feeding-held-food.bite-1 {
+    transform: scale(0.78) rotate(5deg);
+}
+.feeding-held-food.bite-2 {
+    transform: scale(0.52) rotate(-5deg);
+}
+.feeding-held-food.bite-3 {
+    transform: scale(0.24) rotate(8deg);
+}
+.feeding-held-food.bite-done {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.food-crumbs-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 21;
+}
+
+.crumb-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: crumbFall 0.7s forwards ease-in;
+}
+
+@keyframes crumbFall {
+    0% { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--cx, 10px), 60px) scale(0.4); }
+}
+
+/* 먹이 선택 퀵바 */
+.feed-quick-selector {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--primary-light);
+    border-radius: var(--radius-md);
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.feed-selector-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--caramel);
+    white-space: nowrap;
+}
+
+.sub-item-btn {
+    background: #FFF5F7;
+    border: 1.5px solid #FFCCD5;
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    transition: 0.2s;
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.sub-item-btn:hover {
+    background: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 117, 151, 0.2);
+}
+
+/* ====================================================
+   [우측 패널] 돌보기 액션 & 짝짓기 & 내비게이션
+==================================================== */
+.panel-sidebar-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.care-buttons-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.action-btn-large {
+    background: white;
+    border: 2px solid var(--primary-light);
+    border-radius: var(--radius-md);
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--text-main);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 3px 8px rgba(255, 117, 151, 0.1);
+    text-align: left;
+}
+
+.action-btn-large:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background: #FFF8FA;
+    box-shadow: 0 6px 14px rgba(255, 117, 151, 0.22);
+}
+
+.action-btn-large .action-icon {
+    font-size: 1.6rem;
+}
+
+.action-btn-text strong {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--caramel);
+}
+
+.action-btn-text small {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+/* 짝짓기 카드 */
+.mate-card {
+    background: linear-gradient(135deg, #FFF0F5, #FFEBF2);
+    border-color: #FFAEC0;
+}
+
+.mate-card-desc {
+    font-size: 0.76rem;
+    color: #9C4D64;
+    line-height: 1.35;
+    margin-bottom: 8px;
+}
+
+.mate-launch-btn {
+    width: 100%;
+    padding: 9px 12px;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 사이드 내비게이션 그리드 */
+.side-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-top: auto;
+}
+
+.nav-tab-btn {
+    background: white;
+    border: 1.5px solid var(--primary-light);
+    border-radius: 14px;
+    padding: 7px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-family: inherit;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 700;
+}
+
+.nav-tab-btn:hover {
+    color: var(--primary-dark);
+    background: var(--primary-soft);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.nav-icon {
+    font-size: 1.3rem;
+}
+
+.nav-label {
+    font-size: 0.76rem;
+}
+
+/* ====================================================
+   ★ 3. 데이트 인터랙티브 씬 모달 스타일
+==================================================== */
+.date-modal-card {
+    max-width: 580px;
+}
+
+.date-stage-view {
+    position: relative;
+    height: 220px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(180deg, #FDEEDC 0%, #FFF5E4 50%, #C8E6C9 100%);
+    border: 2px solid #FFCCD5;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+.date-petals-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(#FFB3C6 15%, transparent 16%), radial-gradient(#FFE5EC 15%, transparent 16%);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    opacity: 0.5;
+    animation: petalsDrift 10s linear infinite;
+}
+
+@keyframes petalsDrift {
+    0% { background-position: 0 0, 20px 20px; }
+    100% { background-position: 40px 80px, 60px 100px; }
+}
+
+.date-bunnies-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+    z-index: 2;
+}
+
+.date-bunny-box {
+    width: 100px;
+    height: 100px;
+    transition: transform 0.6s ease-in-out;
+}
+
+.date-bunny-left {
+    animation: bunnyDateHopLeft 1.2s infinite alternate ease-in-out;
+}
+.date-bunny-right {
+    transform: scaleX(-1);
+    animation: bunnyDateHopRight 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes bunnyDateHopLeft {
+    0% { transform: translateX(0) translateY(0); }
+    100% { transform: translateX(18px) translateY(-14px); }
+}
+
+@keyframes bunnyDateHopRight {
+    0% { transform: scaleX(-1) translateX(0) translateY(0); }
+    100% { transform: scaleX(-1) translateX(18px) translateY(-14px); }
+}
+
+.date-heart-center {
+    font-size: 2.8rem;
+    animation: heartBeat 0.8s infinite alternate ease-in-out;
+    filter: drop-shadow(0 4px 10px rgba(255, 71, 126, 0.4));
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(0.9); }
+    100% { transform: scale(1.3); }
+}
+
+.date-dialogue-box {
+    margin: 14px 0 10px;
+    background: #FFF5F8;
+    border: 2px dashed #FFB7C5;
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: var(--caramel);
+    font-weight: 700;
+}
+
+.mate-confirm-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.05rem;
+    letter-spacing: -0.3px;
+}
+
+/* ====================================================
+   기타 모달들 (도감, 가족, 상점, 산책, 출산)
+==================================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(60, 40, 50, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background: #FFFDF9;
+    width: 100%;
+    max-width: 520px;
+    max-height: 86vh;
+    border-radius: var(--radius-lg);
+    border: 3px solid #FFCCD5;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPop {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+    padding: 14px 22px;
+    background: linear-gradient(135deg, #FFE5EC, #FFF0F5);
+    border-bottom: 2px dashed #FFCCD5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.modal-close-btn {
+    background: white;
+    border: 1.5px solid var(--primary-light);
+    color: var(--primary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.modal-close-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.modal-body {
+    padding: 16px 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* 산책 모달 */
+.walk-places-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.walk-place-card {
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.walk-place-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-pop);
+}
+
+.place-garden { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-color: #81C784; }
+.place-meadow { background: linear-gradient(135deg, #FFF9C4, #FFF176); border-color: #FBC02D; }
+.place-forest { background: linear-gradient(135deg, #E1F5FE, #B3E5FC); border-color: #4FC3F7; }
+
+.place-icon { font-size: 2.2rem; }
+.place-info h4 { font-size: 1.05rem; color: var(--text-main); margin-bottom: 2px; }
+.place-info p { font-size: 0.78rem; color: var(--text-muted); }
+
+.walk-adventure-screen {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    height: 280px;
+    border: 2px solid #FFB7C5;
+    background: #E8F5E9;
+    display: flex;
+    flex-direction: column;
+}
+
+.walk-bg-scroller {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: bottom;
+}
+.walk-garden-bg { background: linear-gradient(180deg, #CEE5D0 0%, #F5F5F5 65%, #94B49F 100%); }
+.walk-forest-bg { background: linear-gradient(180deg, #D4E2D4 0%, #FAF1E4 65%, #C2DEDC 100%); }
+.walk-meadow-bg { background: linear-gradient(180deg, #FDEEDC 0%, #FFF8E7 65%, #FFD8A9 100%); }
+
+.walk-bunny-runner {
+    position: absolute;
+    bottom: 25px;
+    left: 40px;
+    width: 90px;
+    height: 90px;
+    z-index: 5;
+    animation: bunnyRunHop 0.45s infinite alternate ease-in-out;
+}
+
+@keyframes bunnyRunHop {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-26px) rotate(-6deg); }
+}
+
+.walk-item-spawn {
+    position: absolute;
+    bottom: 35px;
+    right: 40px;
+    font-size: 2.4rem;
+    cursor: pointer;
+    z-index: 6;
+    animation: bounceItem 0.8s infinite alternate ease-in-out;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes bounceItem {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-12px) scale(1.15); }
+}
+
+.walk-progress-hud {
+    position: relative;
+    z-index: 10;
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.walk-log-box {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    color: var(--caramel);
+    text-align: center;
+    z-index: 10;
+    border: 1.5px solid var(--primary-light);
+}
+
+/* 가족 리스트 */
+.family-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.family-card {
+    background: white;
+    border: 2px solid #FFE4EB;
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.family-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 117, 151, 0.15);
+}
+
+.family-card.active-bunny {
+    border-color: var(--primary);
+    background: #FFF5F7;
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.family-bunny-mini {
+    width: 60px;
+    height: 60px;
+    background: var(--bg-cream);
+    border-radius: 50%;
+    border: 2px solid #FFCCD5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.family-bunny-mini .bunny-photoreal-wrapper,
+.dex-card-preview .bunny-photoreal-wrapper,
+.baby-naming-preview .bunny-photoreal-wrapper,
+.mate-candidate-card .bunny-photoreal-wrapper,
+.date-bunny-box .bunny-photoreal-wrapper,
+.walk-bunny-runner .bunny-photoreal-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(0.95) !important;
+}
+
+.family-bunny-mini .bunny-real-image-box,
+.dex-card-preview .bunny-real-image-box,
+.baby-naming-preview .bunny-real-image-box,
+.mate-candidate-card .bunny-real-image-box,
+.date-bunny-box .bunny-real-image-box,
+.walk-bunny-runner .bunny-real-image-box {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 12px !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    mix-blend-mode: normal !important;
+}
+
+.family-bunny-mini .bunny-real-ground-shadow,
+.dex-card-preview .bunny-real-ground-shadow,
+.baby-naming-preview .bunny-real-ground-shadow,
+.mate-candidate-card .bunny-real-ground-shadow,
+.date-bunny-box .bunny-real-ground-shadow {
+    display: none !important;
+}
+
+.family-info { flex: 1; }
+.family-info h4 { font-size: 0.95rem; color: var(--caramel); }
+.family-details { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; }
+
+/* 도감 */
+.dex-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.dex-card {
+    background: white;
+    border: 2px solid #FFE4EB;
+    border-radius: var(--radius-md);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.dex-card.locked {
+    filter: grayscale(0.85);
+    opacity: 0.65;
+    background: #F8F9FA;
+}
+
+.dex-card-preview {
+    width: 75px;
+    height: 75px;
+    margin-bottom: 4px;
+}
+
+.dex-name { font-size: 0.88rem; color: var(--text-main); font-weight: 700; }
+.dex-rarity { font-size: 0.68rem; padding: 2px 6px; border-radius: 8px; margin-top: 2px; font-weight: 700; }
+.rarity-Common { background: #E9ECEF; color: #495057; }
+.rarity-Uncommon { background: #D8F3DC; color: #2D6A4F; }
+.rarity-Rare { background: #FFE5EC; color: #E63946; }
+.rarity-Epic { background: #E0AAFF; color: #5A189A; }
+.rarity-Legendary { background: #FFE6A7; color: #9A6700; }
+
+.dex-desc { font-size: 0.7rem; color: var(--text-muted); margin-top: 3px; }
+
+/* 상점 */
+.shop-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #FFE4EB;
+    padding-bottom: 6px;
+}
+
+.shop-tab-btn {
+    flex: 1;
+    background: #FFF0F3;
+    border: none;
+    padding: 6px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.shop-tab-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.shop-item-card {
+    background: white;
+    border: 2px solid #FFE4EB;
+    border-radius: var(--radius-md);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+}
+
+.shop-item-icon { font-size: 2.2rem; }
+.shop-item-title { font-size: 0.86rem; color: var(--caramel); font-weight: 700; }
+.shop-item-desc { font-size: 0.7rem; color: var(--text-muted); }
+.shop-item-price { background: #FFF2B2; border: 1px solid #F3C64D; color: #925807; font-size: 0.76rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+.buy-btn { width: 100%; margin-top: 4px; background: var(--primary); color: white; border: none; border-radius: 10px; padding: 5px 0; font-size: 0.8rem; font-family: inherit; cursor: pointer; font-weight: 700; }
+
+/* 짝짓기 선택 모달 카드 */
+.mate-candidate-card {
+    background: white;
+    border: 2px solid #FFE4EB;
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-bottom: 8px;
+}
+
+.mate-candidate-card:hover {
+    border-color: #FF477E;
+    background: #FFF5F8;
+    transform: translateY(-2px);
+}
+
+/* 출산 모달 */
+.birth-modal-content { text-align: center; padding: 10px 0; }
+.birth-babies-grid { display: flex; justify-content: center; gap: 10px; margin: 14px 0; flex-wrap: wrap; }
+.baby-naming-card { background: white; border: 2px solid #FFB7C5; border-radius: 16px; padding: 10px; width: 120px; display: flex; flex-direction: column; align-items: center; }
+.baby-naming-preview { width: 60px; height: 60px; }
+.baby-name-input { width: 100%; padding: 4px 6px; border: 1.5px solid var(--primary-light); border-radius: 8px; font-family: inherit; font-size: 0.8rem; text-align: center; margin-top: 6px; outline: none; }
+
+/* 버튼 공통 */
+.btn-primary {
+    background: linear-gradient(135deg, #FF7597, #FF477E);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 9px 18px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 71, 126, 0.3);
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 71, 126, 0.4);
+}
+
+.pill-btn {
+    background: white;
+    border: 1.5px solid var(--primary-light);
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 0.8rem;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+/* ====================================================
+   ★ 모바일 반응형 대응 (작은 화면에서는 세로 자동 재배치)
+==================================================== */
+@media (max-width: 960px) {
+    #app-container.wide-layout {
+        width: 100vw;
+        max-width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+        border: none;
+    }
+
+    .app-main-body {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        gap: 12px;
+    }
+
+    .stage-room {
+        min-height: 300px;
+    }
+
+    .panel-sidebar-left, .panel-sidebar-right {
+        overflow-y: visible;
+    }
+
+    .side-nav-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
