@@ -4,19 +4,26 @@
 
 ---
 
+## 🌐 온라인 바로 플레이하기 (Vercel 배포)
+- **온라인 배포 주소**: **[https://bunny-care-ashy.vercel.app](https://bunny-care-ashy.vercel.app)**
+- **깃허브 저장소**: **[https://github.com/binlsyae-png/bunny-care](https://github.com/binlsyae-png/bunny-care)**
+
+---
+
 ## 🎮 게임 실행 방법
 
-### 방법 1. 브라우저에서 바로 열기
-- `d:\김예원\12_UI제작\bunny-care\index.html` 파일을 더블 클릭하여 Chrome, Edge, Safari 등 웹 브라우저에서 바로 실행합니다.
-- 외부 라이브러리 설치 없이 순수 HTML, CSS, JavaScript로 제작되어 즉시 동작합니다.
+### 방법 1. 온라인 웹 링크 접속 (추천)
+- [https://bunny-care-ashy.vercel.app](https://bunny-care-ashy.vercel.app) 에서 PC/모바일 언제든 바로 플레이 가능합니다.
 
-### 방법 2. 로컬 웹 서버로 열기 (권장)
-- 로컬 포트 3000에 경량 서버가 구동 중입니다.
-- 브라우저 주소창에 `http://localhost:3000` 을 입력하여 접속할 수 있습니다.
-- 수동 실행 시 터미널에서:
+### 방법 2. 브라우저에서 바로 열기
+- `index.html` 파일을 더블 클릭하여 웹 브라우저에서 바로 실행합니다.
+
+### 방법 3. 로컬 웹 서버로 열기
+- 로컬 포트 3000에 경량 서버 구동:
   ```bash
-  node server.js
+  node local-server.js
   ```
+- 브라우저 주소창에 `http://localhost:3000` 접속
 
 ---
 
